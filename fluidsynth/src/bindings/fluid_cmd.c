@@ -18,7 +18,7 @@
  * 02110-1301, USA
  */
 
-#include <glib.h>
+//#include <glib.h>
 
 #include "fluidsynth_priv.h"
 #include "fluid_cmd.h"
@@ -198,6 +198,7 @@ fluid_command(fluid_cmd_handler_t* handler, const char *cmd, fluid_ostream_t out
     return 1;
   }
 
+  /*
   if (!g_shell_parse_argv(cmd, &num_tokens, &tokens, NULL)) {
     fluid_ostream_printf(out, "Error parsing command\n");
     return -1;
@@ -205,8 +206,11 @@ fluid_command(fluid_cmd_handler_t* handler, const char *cmd, fluid_ostream_t out
 
   result = fluid_cmd_handler_handle(handler, num_tokens, &tokens[0], out);
   g_strfreev(tokens);
+  
+  return result;*/
 
-  return result;
+  // TODO FIX ME
+  return -1;
 }
 
 /**

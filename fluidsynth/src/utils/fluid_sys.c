@@ -82,6 +82,22 @@ void fluid_sys_config()
   fluid_log_config();
 }
 
+static void fluid_usleep(long v)
+{
+    // TODO FIX ME
+}
+
+
+struct fluid_time
+{
+    long tv_usec;
+    long tv_sec;
+};
+
+static void fluid_get_current_time(struct fluid_time* ptr)
+{
+    // TODO FIX ME
+}
 
 unsigned int fluid_debug_flags = 0;
 
@@ -369,15 +385,15 @@ fluid_is_soundfont(const char *filename)
  */
 unsigned int fluid_curtime(void)
 {
-  static glong initial_seconds = 0;
-  GTimeVal timeval;
+  static long initial_seconds = 0;
+  struct fluid_time timeval;
 
   if (initial_seconds == 0) {
-    g_get_current_time (&timeval);
+    fluid_get_current_time (&timeval);
     initial_seconds = timeval.tv_sec;
   }
 
-  g_get_current_time (&timeval);
+  fluid_get_current_time (&timeval);
 
   return (unsigned int)((timeval.tv_sec - initial_seconds) * 1000.0 + timeval.tv_usec / 1000.0);
 }
@@ -389,9 +405,9 @@ unsigned int fluid_curtime(void)
 double
 fluid_utime (void)
 {
-  GTimeVal timeval;
+  struct fluid_time timeval;
 
-  g_get_current_time (&timeval);
+  fluid_get_current_time (&timeval);
 
   return (timeval.tv_sec * 1000000.0 + timeval.tv_usec);
 }
@@ -571,21 +587,8 @@ void fluid_profiling_print(void)
  *
  */
 
-#if OLD_GLIB_THREAD_API
-
-/* Rather than inline this one, we just declare it as a function, to prevent
- * GCC warning about inline failure. */
-fluid_cond_t *
-new_fluid_cond (void)
-{
-  if (!g_thread_supported ()) g_thread_init (NULL);
-  return g_cond_new ();
-}
-
-#endif
-
-static gpointer
-fluid_thread_high_prio (gpointer data)
+static void*
+fluid_thread_high_prio (void* data)
 {
   fluid_thread_info_t *info = data;
 
@@ -607,59 +610,60 @@ fluid_thread_high_prio (gpointer data)
  * @return New thread pointer or NULL on error
  */
 fluid_thread_t *
-new_fluid_thread (const char *name, fluid_thread_func_t func, void *data, int prio_level, int detach)
+new_fluid_thread(const char *name, fluid_thread_func_t func, void *data, int prio_level, int detach)
 {
+    // TODO FIX ME
+
+    /*
   GThread *thread;
   fluid_thread_info_t *info;
   GError *err = NULL;
 
   g_return_val_if_fail (func != NULL, NULL);
 
-#if OLD_GLIB_THREAD_API
-  /* Make sure g_thread_init has been called.
-   * FIXME - Probably not a good idea in a shared library,
-   * but what can we do *and* remain backwards compatible? */
+  #if OLD_GLIB_THREAD_API
   if (!g_thread_supported ()) g_thread_init (NULL);
-#endif
+  #endif
 
   if (prio_level > 0)
   {
-    info = FLUID_NEW (fluid_thread_info_t);
+  info = FLUID_NEW (fluid_thread_info_t);
 
-    if (!info)
-    {
-      FLUID_LOG(FLUID_ERR, "Out of memory");
-      return NULL;
-    }
-
-    info->func = func;
-    info->data = data;
-    info->prio_level = prio_level;
-#if NEW_GLIB_THREAD_API
-    thread = g_thread_try_new (name, fluid_thread_high_prio, info, &err);
-#else
-    thread = g_thread_create (fluid_thread_high_prio, info, detach == FALSE, &err);
-#endif
+  if (!info)
+  {
+  FLUID_LOG(FLUID_ERR, "Out of memory");
+  return NULL;
   }
-#if NEW_GLIB_THREAD_API
+
+  info->func = func;
+  info->data = data;
+  info->prio_level = prio_level;
+  #if NEW_GLIB_THREAD_API
+  thread = g_thread_try_new (name, fluid_thread_high_prio, info, &err);
+  #else
+  thread = g_thread_create (fluid_thread_high_prio, info, detach == FALSE, &err);
+  #endif
+  }
+  #if NEW_GLIB_THREAD_API
   else thread = g_thread_try_new (name, (GThreadFunc)func, data, &err);
-#else
+  #else
   else thread = g_thread_create ((GThreadFunc)func, data, detach == FALSE, &err);
-#endif
+  #endif
 
   if (!thread)
   {
-    FLUID_LOG(FLUID_ERR, "Failed to create the thread: %s",
-              fluid_gerror_message (err));
-    g_clear_error (&err);
-    return NULL;
+  FLUID_LOG(FLUID_ERR, "Failed to create the thread: %s",
+  fluid_gerror_message (err));
+  g_clear_error (&err);
+  return NULL;
   }
 
-#if NEW_GLIB_THREAD_API
+  #if NEW_GLIB_THREAD_API
   if (detach) g_thread_unref (thread);  // Release thread reference, if caller wants to detach
-#endif
+  #endif
 
-  return thread;
+  return thread;*/
+  return 0;
 }
 
 /**
@@ -669,6 +673,8 @@ new_fluid_thread (const char *name, fluid_thread_func_t func, void *data, int pr
 void
 delete_fluid_thread(fluid_thread_t* thread)
 {
+    // TODO FIX ME
+
   /* Threads free themselves when they quit, nothing to do */
 }
 
@@ -680,7 +686,9 @@ delete_fluid_thread(fluid_thread_t* thread)
 int
 fluid_thread_join(fluid_thread_t* thread)
 {
-  g_thread_join (thread);
+    // TODO FIX ME
+
+//  g_thread_join (thread);
 
   return FLUID_OK;
 }
@@ -711,7 +719,7 @@ fluid_timer_run (void *data)
        two callbacks bringing in the "absolute" time (count *
        timer->msec) */
     delay = (count * timer->msec) - (fluid_curtime() - start);
-    if (delay > 0) g_usleep (delay * 1000);
+    if (delay > 0) fluid_usleep (delay * 1000);
   }
 
   FLUID_LOG (FLUID_DBG, "Timer thread finished");
@@ -1035,7 +1043,12 @@ new_fluid_server_socket(int port, fluid_server_func_t func, void* data)
 #endif
   fluid_socket_t sock;
 
-  g_return_val_if_fail (func != NULL, NULL);
+  if (func == NULL)
+  {
+      FLUID_LOG(FLUID_ERR, "func is NULL");
+      return NULL;
+  }
+
 #ifdef IPV6
   sock = socket(AF_INET6, SOCK_STREAM, 0);
   if (sock == INVALID_SOCKET) {
@@ -1194,7 +1207,11 @@ new_fluid_server_socket(int port, fluid_server_func_t func, void* data)
   WSADATA wsaData;
   int retval;
 
-  g_return_val_if_fail (func != NULL, NULL);
+  if (func == NULL)
+  {
+      FLUID_LOG(FLUID_ERR, "func is NULL");
+      return NULL;
+  }
 
   // Win32 requires initialization of winsock
   retval = WSAStartup (MAKEWORD (2,2), &wsaData);

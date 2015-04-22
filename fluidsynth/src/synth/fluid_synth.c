@@ -80,7 +80,7 @@ static int fluid_synth_update_polyphony(fluid_synth_t* synth,
                                         char* name, int value);
 static int fluid_synth_update_polyphony_LOCAL(fluid_synth_t* synth, int new_polyphony);
 static void init_dither(void);
-static inline int roundi (float x);
+static FLUID_INLINE int roundi(float x);
 static int fluid_synth_render_blocks(fluid_synth_t* synth, int blockcount);
 //static void fluid_synth_core_thread_func (void* data);
 //static FLUID_INLINE void fluid_synth_process_event_queue_LOCAL
@@ -2614,7 +2614,7 @@ init_dither(void)
 }
 
 /* A portable replacement for roundf(), seems it may actually be faster too! */
-static inline int
+static FLUID_INLINE int
 roundi (float x)
 {
   if (x >= 0.0f)
@@ -3068,7 +3068,7 @@ fluid_synth_start_voice(fluid_synth_t* synth, fluid_voice_t* voice)
 void
 fluid_synth_add_sfloader(fluid_synth_t* synth, fluid_sfloader_t* loader)
 {
-  gboolean sfont_already_loaded;
+  unsigned int sfont_already_loaded;
 
   fluid_return_if_fail (synth != NULL);
   fluid_return_if_fail (loader != NULL);

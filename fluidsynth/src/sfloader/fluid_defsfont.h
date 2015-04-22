@@ -326,7 +326,7 @@ SFData *sfload_file (const char * fname);
  * Boston, MA 02110-1301, USA.
  */
 
-#include <glib.h>
+//#include <glib.h>
 
 
 /*-----------------------------------util.h----------------------------*/

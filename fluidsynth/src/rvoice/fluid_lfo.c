@@ -1,3 +1,4 @@
+#include "fluid_sys.h"
 #include "fluid_lfo.h"
 
 void

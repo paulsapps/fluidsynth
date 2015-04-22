@@ -23,7 +23,6 @@
 
 #include "fluidsynth_priv.h"
 
-typedef struct _fluid_lfo_t fluid_lfo_t;
 
 struct _fluid_lfo_t {
 	fluid_real_t val;          /* the current value of the LFO */
@@ -31,23 +30,29 @@ struct _fluid_lfo_t {
 	fluid_real_t increment;         /* the lfo frequency is converted to a per-buffer increment */
 };
 
-static inline void 
+typedef struct _fluid_lfo_t fluid_lfo_t;
+
+static FLUID_INLINE void
 fluid_lfo_reset(fluid_lfo_t* lfo)
 {
   lfo->val = 0.0f;
 }
 
+
 // These two cannot be inlined since they're used by event_dispatch
 void fluid_lfo_set_incr(fluid_lfo_t* lfo, fluid_real_t increment);
 void fluid_lfo_set_delay(fluid_lfo_t* lfo, unsigned int delay);
 
-static inline fluid_real_t
+
+static FLUID_INLINE fluid_real_t
 fluid_lfo_get_val(fluid_lfo_t* lfo)
 {
   return lfo->val;
 }
 
-static inline void 
+
+
+static FLUID_INLINE void
 fluid_lfo_calc(fluid_lfo_t* lfo, unsigned int cur_delay)
 {
   if (cur_delay < lfo->delay) 

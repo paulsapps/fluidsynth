@@ -279,7 +279,7 @@ void handle_signal(int sig_num)
 int main(int argc, char** argv)
 {
 #ifdef WIN32
-	auto hModule = GetModuleHandle(NULL);
+	HMODULE hModule = GetModuleHandle(NULL);
 	fluid_set_hinstance((void*)hModule);
 #endif
 

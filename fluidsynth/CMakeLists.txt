@@ -58,31 +58,31 @@ option ( enable-fpe-check "enable Floating Point Exception checks and debug mess
 option ( enable-debug "enable debugging (default=no)" off )
 
 # Options enabled by default
-option ( enable-libsndfile "compile libsndfile support (if it is available)" on )
-option ( enable-aufile "compile support for sound file output" on )
-option ( enable-pulseaudio "compile PulseAudio support (if it is available)" on )
-option ( enable-jack "compile JACK support (if it is available)" on )
-option ( enable-midishare "compile MidiShare support (if it is available)" on )
-option ( enable-readline "compile readline lib line editing (if it is available)" on )
-option ( enable-dbus "compile DBUS support (if it is available)" on )
-option ( BUILD_SHARED_LIBS "Build a shared object or DLL" on )
-option ( enable-ipv6  "enable ipv6 support " on )
+option ( enable-libsndfile "compile libsndfile support (if it is available)" off )
+option ( enable-aufile "compile support for sound file output" off )
+option ( enable-pulseaudio "compile PulseAudio support (if it is available)" off )
+option ( enable-jack "compile JACK support (if it is available)" off )
+option ( enable-midishare "compile MidiShare support (if it is available)" off )
+option ( enable-readline "compile readline lib line editing (if it is available)" off )
+option ( enable-dbus "compile DBUS support (if it is available)" off )
+option ( BUILD_SHARED_LIBS "Build a shared object or DLL" off )
+option ( enable-ipv6  "enable ipv6 support " off )
 
 # Platform specific options
 if ( ${CMAKE_SYSTEM} MATCHES "Linux" )
     option ( enable-ladcca "compile LADCCA support if it is available (deprecated)" off )
-    option ( enable-lash "compile LASH support (if it is available)" on )
-    option ( enable-alsa "compile ALSA support (if it is available)" on )
+    option ( enable-lash "compile LASH support (if it is available)" off )
+    option ( enable-alsa "compile ALSA support (if it is available)" off )
 endif ( ${CMAKE_SYSTEM} MATCHES "Linux" )
 
 if ( ${CMAKE_SYSTEM} MATCHES "Darwin" )
-    option ( enable-coreaudio "compile CoreAudio support (if it is available)" on )
-    option ( enable-coremidi "compile CoreMIDI support (if it is available)" on )
-    option ( enable-framework "create a Mac OSX style FluidSynth.framework" on )
+    option ( enable-coreaudio "compile CoreAudio support (if it is available)" off )
+    option ( enable-coremidi "compile CoreMIDI support (if it is available)" off )
+    option ( enable-framework "create a Mac OSX style FluidSynth.framework" off )
 endif ( ${CMAKE_SYSTEM} MATCHES "Darwin" )
 
 if ( ${CMAKE_SYSTEM} MATCHES "OS2" )
-    option ( enable-dart "compile DART support (if it is available)" on )
+    option ( enable-dart "compile DART support (if it is available)" off )
 endif ( ${CMAKE_SYSTEM} MATCHES "OS2" )
 
 # Initialize the library directory name suffix.
@@ -286,20 +286,20 @@ endif( MSVC )
 
 if ( NOT REQUIRE_PKGCONFIG )
 	
-	FIND_LIBRARY( GLIB_LIB NAMES glib glib-2.0 )
-	FIND_LIBRARY( GLIB_GTHREAD_LIB NAMES gthread gthread-2.0 )
-	FIND_PATH( GLIB_GLIBH_DIR glib.h )
-	FIND_PATH( GLIB_GLIBCONF_DIR glibconfig.h  )
+	#FIND_LIBRARY( GLIB_LIB NAMES glib glib-2.0 )
+	#FIND_LIBRARY( GLIB_GTHREAD_LIB NAMES gthread gthread-2.0 )
+	#FIND_PATH( GLIB_GLIBH_DIR glib.h )
+	#FIND_PATH( GLIB_GLIBCONF_DIR glibconfig.h  )
 	
-	IF( GLIB_LIB MATCHES "GLIB_LIB-NOTFOUND" OR
-		GLIB_GTHREAD_LIB MATCHES "GLIB_GTHREAD_LIB-NOTFOUND" OR
-		GLIB_GLIBH_DIR MATCHES "GLIB_GLIBH_DIR-NOTFOUND" OR
-		GLIB_GLIBCONF_DIR MATCHES "GLIB_GLIBCONF_DIR-NOTFOUND")
-		message( WARNING "I don't know how be sure if found find GLIB on windows, but I will still generate a project")
-	ENDIF()
+	#IF( GLIB_LIB MATCHES "GLIB_LIB-NOTFOUND" OR
+#		GLIB_GTHREAD_LIB MATCHES "GLIB_GTHREAD_LIB-NOTFOUND" OR
+#		GLIB_GLIBH_DIR MATCHES "GLIB_GLIBH_DIR-NOTFOUND" OR
+#		GLIB_GLIBCONF_DIR MATCHES "GLIB_GLIBCONF_DIR-NOTFOUND")
+#		message( WARNING "I don't know how be sure if found find GLIB on windows, but I will still generate a project")
+#	ENDIF()
 	
-	SET( GLIB_INCLUDE_DIRS ${GLIB_GLIBH_DIR} ${GLIB_GLIBCONF_DIR} )
-	SET ( GLIB_LIBRARIES ${GLIB_LIB} ${GLIB_GTHREAD_LIB} )
+#	SET( GLIB_INCLUDE_DIRS ${GLIB_GLIBH_DIR} ${GLIB_GLIBCONF_DIR} )
+#	SET ( GLIB_LIBRARIES ${GLIB_LIB} ${GLIB_GTHREAD_LIB} )
 	
 	message( STATUS "GLIB_INCLUDE_DIRS: " ${GLIB_INCLUDE_DIRS} )
 	message( STATUS "GLIB_LIBRARIES: " ${GLIB_LIBRARIES} )

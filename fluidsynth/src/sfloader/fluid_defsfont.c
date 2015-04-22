@@ -225,7 +225,7 @@ typedef struct _fluid_cached_sampledata_t {
 } fluid_cached_sampledata_t;
 
 static fluid_cached_sampledata_t* all_cached_sampledata = NULL;
-static fluid_mutex_t cached_sampledata_mutex = FLUID_MUTEX_INIT;
+static fluid_mutex_t cached_sampledata_mutex = { NULL };
 
 static int fluid_get_file_modification_time(char *filename, time_t *modification_time)
 {
@@ -2589,7 +2589,7 @@ load_pgen (int size, SFData * sf, FILE * fd)
 		{		/* inst is last gen */
 		  level = 3;
 		  READW (genval.uword, fd);
-		  ((SFZone *) (p2->data))->instsamp = GINT_TO_POINTER (genval.uword + 1);
+		  ((SFZone *) (p2->data))->instsamp = FLUID_INT_TO_POINTER (genval.uword + 1);
 		  break;	/* break out of generator loop */
 		}
 	      else
@@ -2939,7 +2939,7 @@ load_igen (int size, SFData * sf, FILE * fd)
 		{		/* sample is last gen */
 		  level = 3;
 		  READW (genval.uword, fd);
-		  ((SFZone *) (p2->data))->instsamp = GINT_TO_POINTER (genval.uword + 1);
+		  ((SFZone *) (p2->data))->instsamp = FLUID_INT_TO_POINTER (genval.uword + 1);
 		  break;	/* break out of generator loop */
 		}
 	      else
@@ -3099,7 +3099,7 @@ fixup_pgen (SFData * sf)
       while (p2)
 	{			/* traverse this preset's zones */
 	  z = (SFZone *) (p2->data);
-	  if ((i = GPOINTER_TO_INT (z->instsamp)))
+	  if ((i = FLUID_POINTER_TO_INT (z->instsamp)))
 	    {			/* load instrument # */
 	      p3 = fluid_list_nth (sf->inst, i - 1);
 	      if (!p3)
@@ -3134,7 +3134,7 @@ fixup_igen (SFData * sf)
       while (p2)
 	{			/* traverse instrument's zones */
 	  z = (SFZone *) (p2->data);
-	  if ((i = GPOINTER_TO_INT (z->instsamp)))
+	  if ((i = FLUID_POINTER_TO_INT (z->instsamp)))
 	    {			/* load sample # */
 	      p3 = fluid_list_nth (sf->sample, i - 1);
 	      if (!p3)

@@ -22,7 +22,7 @@
 #ifndef _FLUIDSYNTH_PRIV_H
 #define _FLUIDSYNTH_PRIV_H
 
-#include <glib.h>
+//#include <glib.h>
 
 #if HAVE_CONFIG_H
 #include "config.h"
@@ -142,7 +142,7 @@
 
 
 #include "fluidsynth.h"
-
+#include <malloc.h>
 
 /***************************************************************
  *
@@ -168,17 +168,17 @@ typedef int fluid_socket_t;
      _type _name[_len]
 #else
 #  define FLUID_DECLARE_VLA(_type, _name, _len) \
-     _type* _name = g_newa(_type, (_len))
+     _type* _name = alloca((_len))
 #endif
 
 
 /** Integer types  */
 //typedef gint8              sint8;
-typedef guint8             uint8;
+typedef unsigned char             uint8;
 //typedef gint16             sint16;
 //typedef guint16            uint16;
-typedef gint32             sint32;
-typedef guint32            uint32;
+typedef signed int             sint32;
+typedef unsigned int            uint32;
 //typedef gint64             sint64;
 //typedef guint64            uint64;
 
