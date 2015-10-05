@@ -228,7 +228,8 @@ link_directories (
 )
 
 add_library (fluidsynth_platformabstraction platform_abstraction.cpp)
-SET_TARGET_PROPERTIES(fluidsynth_platformabstraction PROPERTIES LINKER_LANGUAGE CPP)
+SET_SOURCE_FILES_PROPERTIES(platform_abstraction.cpp PROPERTIES LANGUAGE CXX )
+SET_TARGET_PROPERTIES(fluidsynth_platformabstraction PROPERTIES LINKER_LANGUAGE CXX)
 
 # note: by default this target creates a shared object (or dll). To build a
 # static library instead, set the option BUILD_SHARED_LIBS to FALSE.

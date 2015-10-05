@@ -153,7 +153,8 @@ extern "C"
 
     void* do_thread_self()
     {
-        return std::this_thread;
+      // return std::this_thread
+        return 0;
     }
 
     int flud_atomic_int_get(int* ptr)
