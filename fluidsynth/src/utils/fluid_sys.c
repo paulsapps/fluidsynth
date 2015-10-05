@@ -82,11 +82,6 @@ void fluid_sys_config()
   fluid_log_config();
 }
 
-static void fluid_usleep(long v)
-{
-    // TODO FIX ME
-}
-
 
 struct fluid_time
 {
@@ -94,10 +89,9 @@ struct fluid_time
     long tv_sec;
 };
 
-static void fluid_get_current_time(struct fluid_time* ptr)
-{
-    // TODO FIX ME
-}
+
+void fluid_usleep(long v);
+void fluid_get_current_time(struct fluid_time* ptr);
 
 unsigned int fluid_debug_flags = 0;
 
@@ -598,99 +592,6 @@ fluid_thread_high_prio (void* data)
   FLUID_FREE (info);
 
   return NULL;
-}
-
-/**
- * Create a new thread.
- * @param func Function to execute in new thread context
- * @param data User defined data to pass to func
- * @param prio_level Priority level.  If greater than 0 then high priority scheduling will
- *   be used, with the given priority level (used by pthreads only).  0 uses normal scheduling.
- * @param detach If TRUE, 'join' does not work and the thread destroys itself when finished.
- * @return New thread pointer or NULL on error
- */
-fluid_thread_t *
-new_fluid_thread(const char *name, fluid_thread_func_t func, void *data, int prio_level, int detach)
-{
-    // TODO FIX ME
-
-    /*
-  GThread *thread;
-  fluid_thread_info_t *info;
-  GError *err = NULL;
-
-  g_return_val_if_fail (func != NULL, NULL);
-
-  #if OLD_GLIB_THREAD_API
-  if (!g_thread_supported ()) g_thread_init (NULL);
-  #endif
-
-  if (prio_level > 0)
-  {
-  info = FLUID_NEW (fluid_thread_info_t);
-
-  if (!info)
-  {
-  FLUID_LOG(FLUID_ERR, "Out of memory");
-  return NULL;
-  }
-
-  info->func = func;
-  info->data = data;
-  info->prio_level = prio_level;
-  #if NEW_GLIB_THREAD_API
-  thread = g_thread_try_new (name, fluid_thread_high_prio, info, &err);
-  #else
-  thread = g_thread_create (fluid_thread_high_prio, info, detach == FALSE, &err);
-  #endif
-  }
-  #if NEW_GLIB_THREAD_API
-  else thread = g_thread_try_new (name, (GThreadFunc)func, data, &err);
-  #else
-  else thread = g_thread_create ((GThreadFunc)func, data, detach == FALSE, &err);
-  #endif
-
-  if (!thread)
-  {
-  FLUID_LOG(FLUID_ERR, "Failed to create the thread: %s",
-  fluid_gerror_message (err));
-  g_clear_error (&err);
-  return NULL;
-  }
-
-  #if NEW_GLIB_THREAD_API
-  if (detach) g_thread_unref (thread);  // Release thread reference, if caller wants to detach
-  #endif
-
-  return thread;*/
-  return 0;
-}
-
-/**
- * Frees data associated with a thread (does not actually stop thread).
- * @param thread Thread to free
- */
-void
-delete_fluid_thread(fluid_thread_t* thread)
-{
-    // TODO FIX ME
-
-  /* Threads free themselves when they quit, nothing to do */
-}
-
-/**
- * Join a thread (wait for it to terminate).
- * @param thread Thread to join
- * @return FLUID_OK
- */
-int
-fluid_thread_join(fluid_thread_t* thread)
-{
-    // TODO FIX ME
-
-//  g_thread_join (thread);
-
-  return FLUID_OK;
 }
 
 

@@ -227,6 +227,8 @@ link_directories (
     ${DBUS_LIBRARY_DIRS}
 )
 
+add_library (fluidsynth_platformabstraction platform_abstraction.cpp)
+SET_TARGET_PROPERTIES(fluidsynth_platformabstraction PROPERTIES LINKER_LANGUAGE CPP)
 
 # note: by default this target creates a shared object (or dll). To build a
 # static library instead, set the option BUILD_SHARED_LIBS to FALSE.
@@ -304,6 +306,7 @@ target_link_libraries ( libfluidsynth
     ${WINDOWS_LIBS}
     ${MidiShare_LIBS}
     ${LIBFLUID_LIBS}
+    fluidsynth_platformabstraction
 )
 
 # ************ CLI program ************

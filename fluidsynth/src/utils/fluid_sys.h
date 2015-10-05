@@ -88,6 +88,43 @@ void fluid_time_config(void);
 #define FLUID_INT_TO_POINTER(i)      ((void*)  (i))
 #define FLUID_N_ELEMENTS(struct)  (sizeof (struct) / sizeof (struct[0]))
 
+typedef void*    fluid_cond_mutex_t;
+
+/* Thread condition signaling */
+typedef void* fluid_cond_t;
+
+void do_static_mutex_free(void* ptr);
+void do_static_mutex_lock(void* ptr);
+void do_static_mutex_unlock(void* ptr);
+void do_thread_init(void* ptr);
+int do_thread_supported(void);
+void do_static_mutex_init(void* ptr);
+void do_static_rec_mutex_free(void* ptr);
+void do_static_rec_mutex_lock(void* ptr);
+void do_static_rec_mutex_unlock(void* ptr);
+void do_static_rec_mutex_init(void* ptr);
+void do_mutex_free(void* ptr);
+void do_mutex_lock(void* ptr);
+void do_mutex_unlock(void* ptr);
+fluid_cond_mutex_t* new_fluid_cond_mutex(void);
+void do_cond_free(void* cond);
+void do_cond_signal(void* cond);
+void do_cond_broadcast(void* cond);
+void do_cond_wait(void* cond, void* mutex);
+fluid_cond_t *new_fluid_cond(void);
+void* do_static_private_get(void* ptr);
+void do_static_private_set(void* ptr, void* data, void* ptr2);
+void do_static_private_free(void* ptr);
+void do_static_private_init(void* ptr);
+int do_atomic_inc(volatile int* v);
+int do_atomic_int_add(volatile int* i, volatile int v);
+int do_atomic_int_get(volatile void* ptr);
+void do_atomic_int_set(volatile void* ptr, volatile int v);
+int do_atomic_int_exchange_and_add(volatile void* ptr, int v);
+void* do_thread_self();
+int flud_atomic_int_get(int* ptr);
+
+// TODO FIX ME
 /*
 #ifndef G_BYTE_ORDER
 #define G_BYTE_ORDER G_LITTLE_ENDIAN
@@ -96,170 +133,8 @@ void fluid_time_config(void);
 
 #define FLUID_IS_BIG_ENDIAN 1 //       (G_BYTE_ORDER == G_BIG_ENDIAN)
 
-// TODO FIX ME
-#define fluid_return_val_if_fail 
-#define fluid_return_if_fail      
-
-
-FLUID_INLINE void do_static_mutex_free(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_mutex_lock(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_mutex_unlock(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_thread_init(void* ptr)
-{
-
-}
-
-FLUID_INLINE int do_thread_supported(void)
-{
-    return 0;
-}
-
-FLUID_INLINE void do_static_mutex_init(void* ptr)
-{
-
-}
-
-
-FLUID_INLINE void do_static_rec_mutex_free(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_rec_mutex_lock(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_rec_mutex_unlock(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_rec_mutex_init(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_mutex_free(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_mutex_lock(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_mutex_unlock(void* ptr)
-{
-
-}
-
-typedef void*    fluid_cond_mutex_t;
-
-static FLUID_INLINE fluid_cond_mutex_t* new_fluid_cond_mutex(void)
-{
-    // TODO FIX ME
-    return 0;
-}
-
-
-FLUID_INLINE void do_cond_free(void* cond)
-{
-
-}
-
-FLUID_INLINE void do_cond_signal(void* cond)
-{
-
-}
-
-FLUID_INLINE void do_cond_broadcast(void* cond)
-{
-
-}
-
-FLUID_INLINE void do_cond_wait(void* cond, void* mutex)
-{
-
-}
-
-/* Thread condition signaling */
-typedef void* fluid_cond_t;
-
-FLUID_INLINE fluid_cond_t *new_fluid_cond(void)
-{
-    return 0;
-}
-
-FLUID_INLINE void* do_static_private_get(void* ptr)
-{
-    return 0;
-}
-
-FLUID_INLINE void do_static_private_set(void* ptr, void* data, void* ptr2)
-{
-
-}
-
-FLUID_INLINE void do_static_private_free(void* ptr)
-{
-
-}
-
-FLUID_INLINE void do_static_private_init(void* ptr)
-{
-
-}
-
-static FLUID_INLINE int do_atomic_inc(volatile int* v)
-{
-    return *++v;
-}
-
-static FLUID_INLINE int do_atomic_int_add(volatile int* i, volatile int v)
-{
-    return *i + v;
-}
-
-FLUID_INLINE int do_atomic_int_get(volatile void* ptr)
-{
-    return *(int*)ptr;
-}
-
-FLUID_INLINE void do_atomic_int_set(volatile void* ptr, volatile int v)
-{
-    (*(int*)ptr) = v;
-}
-
-FLUID_INLINE int do_atomic_int_exchange_and_add(volatile void* ptr, int v)
-{
-    return v;
-}
-
-FLUID_INLINE void* do_thread_self()
-{
-    return 0;
-}
-
-// flud_seq.c
-FLUID_INLINE int flud_atomic_int_get(int* ptr)
-{
-    return *ptr;
-}
-
+#define fluid_return_val_if_fail(cond,val) if(cond) return val;
+#define fluid_return_if_fail(cond) if(cond) return;
 
 /*
  * Utility functions
