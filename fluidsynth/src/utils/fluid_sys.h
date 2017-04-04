@@ -121,7 +121,6 @@ int do_atomic_int_add(volatile int* i, volatile int v);
 int do_atomic_int_get(volatile void* ptr);
 void do_atomic_int_set(volatile void* ptr, volatile int v);
 int do_atomic_int_exchange_and_add(volatile void* ptr, int v);
-void* do_thread_self();
 int flud_atomic_int_get(int* ptr);
 
 // TODO FIX ME
@@ -211,9 +210,9 @@ typedef void* fluid_mutex_t;
 
 /* Recursive lock capable mutex */
 typedef void* fluid_rec_mutex_t;
-#define fluid_rec_mutex_destroy(_m)   do_static_rec_mutex_free(&(_m))
-#define fluid_rec_mutex_lock(_m)      do_static_rec_mutex_lock(&(_m))
-#define fluid_rec_mutex_unlock(_m)    do_static_rec_mutex_unlock(&(_m))
+#define fluid_rec_mutex_destroy(_m)   do_static_rec_mutex_free(_m)
+#define fluid_rec_mutex_lock(_m)      do_static_rec_mutex_lock(_m)
+#define fluid_rec_mutex_unlock(_m)    do_static_rec_mutex_unlock(_m)
 
 #define fluid_rec_mutex_init(_m)      G_STMT_START { \
   if (!do_thread_supported ()) do_thread_init (NULL); \
@@ -298,7 +297,6 @@ typedef void (*fluid_thread_func_t)(void* data);
 
 #define FLUID_THREAD_ID_NULL            NULL                    /* A NULL "ID" value */
 #define fluid_thread_id_t               void *               /* Data type for a thread ID */
-#define fluid_thread_get_id()           do_thread_self()         /* Get unique "ID" for current thread */
 
 fluid_thread_t* new_fluid_thread(const char *name, fluid_thread_func_t func, void *data,
                                  int prio_level, int detach);

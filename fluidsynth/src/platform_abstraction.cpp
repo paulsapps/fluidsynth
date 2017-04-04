@@ -55,17 +55,17 @@ extern "C"
 
     void do_mutex_free(void* ptr)
     {
-
+		delete reinterpret_cast<std::mutex*>(ptr);
     }
 
     void do_mutex_lock(void* ptr)
     {
-
+		reinterpret_cast<std::mutex*>(ptr)->lock();
     }
 
     void do_mutex_unlock(void* ptr)
     {
-
+		reinterpret_cast<std::mutex*>(ptr)->unlock();
     }
 
     // ==============================================
@@ -151,12 +151,6 @@ extern "C"
         return v;
     }
 
-    void* do_thread_self()
-    {
-      // return std::this_thread
-        return 0;
-    }
-
     int flud_atomic_int_get(int* ptr)
     {
         return *ptr;
@@ -167,13 +161,9 @@ extern "C"
     * @param thread Thread to join
     * @return FLUID_OK
     */
-    int
-        fluid_thread_join(void* thread)
+    int fluid_thread_join(void* thread)
     {
-        // TODO FIX ME
-
         reinterpret_cast<std::thread*>(thread)->join();
-        //  g_thread_join (thread);
 
         //return FLUID_OK;
         return 0;
@@ -189,7 +179,6 @@ extern "C"
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(v));
     }
-
 
     void fluid_get_current_time(struct fluid_time* ptr)
     {
@@ -209,10 +198,7 @@ extern "C"
 
     void* new_fluid_thread(const char *name, fluid_thread_func_t func, void *data, int prio_level, int detach)
     {
-        // TODO FIX ME
-
         std::thread* t = new std::thread(func, data);
-        
         if (detach)
         {
             t->detach();
@@ -276,13 +262,8 @@ extern "C"
     * Frees data associated with a thread (does not actually stop thread).
     * @param thread Thread to free
     */
-    void
-        delete_fluid_thread(void* thread)
+    void delete_fluid_thread(void* thread)
     {
-        // TODO FIX ME
-
-        /* Threads free themselves when they quit, nothing to do */
-
         delete reinterpret_cast<std::thread*>(thread);
     }
 }

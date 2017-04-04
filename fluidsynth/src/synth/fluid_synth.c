@@ -2808,10 +2808,6 @@ fluid_synth_render_blocks(fluid_synth_t* synth, int blockcount)
 {
   int i;
   fluid_profile_ref_var (prof_ref);
-
-  /* Assign ID of synthesis thread */
-//  synth->synth_thread_id = fluid_thread_get_id ();
-
   fluid_check_fpe("??? Just starting up ???");
   
   fluid_rvoice_eventhandler_dispatch_all(synth->eventhandler);
